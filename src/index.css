@@ -31,53 +31,53 @@ body{
 
 /* dynamic border radius based on number of chats */
 /* for other users message */
-.right-chat + .left-chat:has(+ .left-chat){
+.right-chat + .left-chat:has(+ .left-chat) .message{
   border-bottom-left-radius: 6px;
   margin: 0 !important;
 }
-.left-chat + .left-chat:has(+ .right-chat){
+.left-chat + .left-chat:has(+ .right-chat) .message {
   margin: 0 !important;
   margin-top: 4px !important;
   border-top-left-radius: 6px;
 }
-.left-chat + .left-chat:has(+ .left-chat){
+.left-chat + .left-chat:has(+ .left-chat) .message{
   border-top-left-radius: 6px;
   border-bottom-left-radius: 6px;
   margin-top: 4px !important;
   margin-bottom: 4px !important;
 }
-.left-chat + .left-chat:last-child{
+.left-chat + .left-chat:last-child .message{
   border-top-left-radius: 6px;
   margin-top: 4px !important;
 }
 
-.left-chat:first-child:has(+ .left-chat){
+.left-chat:first-child:has(+ .left-chat) .message{
   border-bottom-left-radius: 6px;
   margin-bottom: 0 !important;
 }
 
 /* for self messages */
-.left-chat + .right-chat:has(+ .right-chat){
+.left-chat + .right-chat:has(+ .right-chat) .message{
   border-bottom-right-radius: 6px;
   margin-bottom: 4px !important;
 }
-.right-chat + .right-chat:has(+ .left-chat){
+.right-chat + .right-chat:has(+ .left-chat) .message{
   margin-top: 4px !important;
   border-top-right-radius: 6px;
 }
-.right-chat + .right-chat:has(+ .right-chat){
+.right-chat + .right-chat:has(+ .right-chat) .message{
   border-top-right-radius: 6px;
   border-bottom-right-radius: 6px;
   margin-top: 4px !important;
   margin-bottom: 4px !important;
 }
 
-.right-chat + .right-chat:last-child{
+.right-chat + .right-chat:last-child .message{
   border-top-right-radius: 6px;
   margin-top: 4px !important;
 }
 
-.right-chat:first-child:has(+ .right-chat){
+.right-chat:first-child:has(+ .right-chat) .message{
   border-bottom-right-radius: 6px;
   margin-bottom: 0 !important;
 }

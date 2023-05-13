@@ -13,6 +13,7 @@ import { useEffect, useRef, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 
 import { auth, db } from "../configs/firebase";
+import MessageContainer from "../components/MessageContainer";
 
 const TopBar = () => {
   return (
@@ -36,39 +37,6 @@ const TopBar = () => {
       >
         Logout
       </button>
-    </div>
-  );
-};
-
-interface Message {
-  id: string;
-  message: string;
-  userId: string;
-  createdAt: string;
-  updatedAt: string;
-  isEdited: false;
-}
-
-const Message = ({
-  message,
-  loggedInUserId,
-  displayName,
-}: {
-  message: Message;
-  loggedInUserId?: string;
-  displayName?: string;
-}) => {
-  return (
-    <div
-      className={`max-w-[85%] flex flex-col gap-0.5 ${message.userId === loggedInUserId ? "right-chat" : "left-chat"
-        } w-fit rounded-3xl ${message.userId === loggedInUserId ? "bg-blue-600" : "bg-gray-500"
-        } text-white px-4 py-2 my-4 ${message.userId == loggedInUserId && "ml-auto text-right"
-        }`}
-    >
-      {message.message}
-      <span className="text-xs text-gray-300">
-        {message.userId === loggedInUserId ? "You" : displayName}
-      </span>
     </div>
   );
 };
@@ -175,7 +143,7 @@ const Chat = () => {
           ref={chatViewRef}
         >
           {chats.map((message) => (
-            <Message
+            <MessageContainer
               message={message}
               key={message.id}
               loggedInUserId={user?.uid}
