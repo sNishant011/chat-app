@@ -1,0 +1,83 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer utilities {
+  .scrollbar::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  .scrollbar::-webkit-scrollbar-track {
+    border-radius: 5px;
+    background: #bfd7ff ;
+  }
+
+  .scrollbar::-webkit-scrollbar-thumb {
+    background: #78aaff;
+    border-radius: 5px;
+  }
+
+  .scrollbar::-webkit-scrollbar-thumb:hover {
+    background: #005eff;
+  }
+}
+
+body{
+  background-color: #f7fafc;
+  position: relative;
+  height: 100vh;
+  font-family: 'Nunito Sans', sans-serif;
+}
+
+/* dynamic border radius based on number of chats */
+/* for other users message */
+.right-chat + .left-chat:has(+ .left-chat){
+  border-bottom-left-radius: 6px;
+  margin: 0 !important;
+}
+.left-chat + .left-chat:has(+ .right-chat){
+  margin: 0 !important;
+  margin-top: 4px !important;
+  border-top-left-radius: 6px;
+}
+.left-chat + .left-chat:has(+ .left-chat){
+  border-top-left-radius: 6px;
+  border-bottom-left-radius: 6px;
+  margin-top: 4px !important;
+  margin-bottom: 4px !important;
+}
+.left-chat + .left-chat:last-child{
+  border-top-left-radius: 6px;
+  margin-top: 4px !important;
+}
+
+.left-chat:first-child:has(+ .left-chat){
+  border-bottom-left-radius: 6px;
+  margin-bottom: 0 !important;
+}
+
+/* for self messages */
+.left-chat + .right-chat:has(+ .right-chat){
+  border-bottom-right-radius: 6px;
+  margin-bottom: 4px !important;
+}
+.right-chat + .right-chat:has(+ .left-chat){
+  margin-top: 4px !important;
+  border-top-right-radius: 6px;
+}
+.right-chat + .right-chat:has(+ .right-chat){
+  border-top-right-radius: 6px;
+  border-bottom-right-radius: 6px;
+  margin-top: 4px !important;
+  margin-bottom: 4px !important;
+}
+
+.right-chat + .right-chat:last-child{
+  border-top-right-radius: 6px;
+  margin-top: 4px !important;
+}
+
+.right-chat:first-child:has(+ .right-chat){
+  border-bottom-right-radius: 6px;
+  margin-bottom: 0 !important;
+}
