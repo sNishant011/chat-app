@@ -1,3 +1,4 @@
+/* @ts-ignore */
 import autoAnimate from "@formkit/auto-animate";
 import {
   addDoc,
@@ -68,7 +69,7 @@ const Message = ({
       <span className="text-xs text-gray-300">
         {message.userId === loggedInUserId ? "You" : displayName}
       </span>
-    </div >
+    </div>
   );
 };
 
@@ -169,9 +170,17 @@ const Chat = () => {
     <div className="relative w-full flex flex-col max-w-lg h-screen overflow-hidden mx-auto bg-blue-50">
       <TopBar />
       <div className="relative h-[calc(100vh-160px)] p-4 pr-2 flex items-end">
-        <div className="scrollbar pr-1 h-full w-full overflow-y-scroll overflow-x-clip break-words" ref={chatViewRef}>
+        <div
+          className="scrollbar pr-1 h-full w-full overflow-y-scroll overflow-x-clip break-words"
+          ref={chatViewRef}
+        >
           {chats.map((message) => (
-            <Message message={message} key={message.id} loggedInUserId={user?.uid} displayName={user?.displayName} />
+            <Message
+              message={message}
+              key={message.id}
+              loggedInUserId={user?.uid}
+              displayName={user?.displayName || "Anonymous"}
+            />
           ))}
         </div>
       </div>
