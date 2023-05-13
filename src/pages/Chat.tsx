@@ -51,19 +51,24 @@ interface Message {
 const Message = ({
   message,
   loggedInUserId,
+  displayName,
 }: {
   message: Message;
   loggedInUserId?: string;
+  displayName?: string;
 }) => {
   return (
     <div
-      className={`max-w-[85%] ${message.userId === loggedInUserId ? "right-chat" : "left-chat"
+      className={`max-w-[85%] flex flex-col gap-0.5 ${message.userId === loggedInUserId ? "right-chat" : "left-chat"
         } w-fit rounded-3xl ${message.userId === loggedInUserId ? "bg-blue-600" : "bg-gray-500"
         } text-white px-4 py-2 my-4 ${message.userId == loggedInUserId && "ml-auto text-right"
         }`}
     >
       {message.message}
-    </div>
+      <span className="text-xs text-gray-300">
+        {message.userId === loggedInUserId ? "You" : displayName}
+      </span>
+    </div >
   );
 };
 
@@ -164,9 +169,9 @@ const Chat = () => {
     <div className="relative w-full flex flex-col max-w-lg h-screen overflow-hidden mx-auto bg-blue-50">
       <TopBar />
       <div className="relative h-[calc(100vh-160px)] p-4 pr-2 flex items-end">
-        <div className="scrollbar pr-1 h-full w-full overflow-y-scroll" ref={chatViewRef}>
+        <div className="scrollbar pr-1 h-full w-full overflow-y-scroll overflow-x-clip break-words" ref={chatViewRef}>
           {chats.map((message) => (
-            <Message message={message} key={message.id} loggedInUserId={user?.uid} />
+            <Message message={message} key={message.id} loggedInUserId={user?.uid} displayName={user?.displayName} />
           ))}
         </div>
       </div>
