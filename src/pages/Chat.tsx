@@ -127,7 +127,10 @@ const Chat = () => {
     if (!message) return;
     await addDoc(collection(db, "messages"), {
       message: message,
-      userId: user.uid,
+      user: {
+        uid: user.uid,
+        displayName: user.displayName,
+      },
       createdAt: serverTimestamp(),
       updatedAt: serverTimestamp(),
       isEdited: false,
