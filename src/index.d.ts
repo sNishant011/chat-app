@@ -6,7 +6,10 @@ interface Message {
     uid: string;
     displayName: string;
   };
-  createdAt: string;
+  createdAt: {
+    nanoseconds: number;
+    seconds: number;
+  };
   updatedAt: string;
   isEdited: false;
 }
