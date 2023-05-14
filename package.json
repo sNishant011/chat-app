@@ -13,6 +13,8 @@
   },
   "dependencies": {
     "@formkit/auto-animate": "1.0.0-beta.6",
+    "@radix-ui/react-dialog": "^1.0.3",
+    "@radix-ui/react-popover": "^1.0.5",
     "daisyui": "^2.51.6",
     "firebase": "^9.21.0",
     "react": "^18.2.0",

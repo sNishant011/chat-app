@@ -12,8 +12,8 @@ import {
 import { useEffect, useRef, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 
-import { auth, db } from "../configs/firebase";
 import MessageContainer from "../components/MessageContainer";
+import { auth, db } from "../configs/firebase";
 
 const TopBar = () => {
   return (
@@ -150,7 +150,6 @@ const Chat = () => {
               message={message}
               key={message.id}
               loggedInUserId={user?.uid}
-              displayName={user?.displayName || "Anonymous"}
             />
           ))}
         </div>
