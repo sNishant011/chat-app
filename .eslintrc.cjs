@@ -23,7 +23,7 @@ module.exports = {
   plugins: ["react-refresh", "simple-import-sort", "prettier"],
   rules: {
     "react-refresh/only-export-components": "warn",
-    "prettier/prettier": ["error", {}, { usePrettierrc: true }],
+    "prettier/prettier": ["warn", {}, { usePrettierrc: true }],
     "simple-import-sort/imports": "warn",
     "simple-import-sort/exports": "warn",
     "react/react-in-jsx-scope": "off",

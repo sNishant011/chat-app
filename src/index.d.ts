@@ -1,4 +1,3 @@
-
 interface Message {
   id: string;
   message: string;
@@ -10,7 +9,9 @@ interface Message {
     nanoseconds: number;
     seconds: number;
   };
-  updatedAt: string;
+  updatedAt: {
+    nanoseconds: number;
+    seconds: number;
+  };
   isEdited: false;
 }
-

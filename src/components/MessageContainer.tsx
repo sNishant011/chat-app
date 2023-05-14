@@ -1,9 +1,9 @@
-import * as AlertDialog from "@radix-ui/react-alert-dialog";
-import * as Dialog from "@radix-ui/react-dialog";
 import { deleteDoc, doc, serverTimestamp, updateDoc } from "firebase/firestore";
 import { useState } from "react";
 
 import { db } from "../configs/firebase";
+import MessageDeleteModal from "./MessageDeleteModal";
+import MessageEditModal from "./MessageEditModal";
 
 const MessageContainer = ({
   message,
@@ -12,12 +12,12 @@ const MessageContainer = ({
   message: Message;
   loggedInUserId?: string;
 }) => {
-  const [newMessage, setNewMessage] = useState(message.message);
   const [isActive, setIsActive] = useState(false);
 
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
-  const handleMessageEdit = () => {
+
+  const handleMessageEdit = (newMessage: string) => {
     setIsEditing(true);
     const docRef = doc(db, "messages", message.id);
     updateDoc(docRef, {
@@ -45,8 +45,8 @@ const MessageContainer = ({
     <>
       <div
         className={`flex max-w-[85%] flex-col  my-4   gap-1  w-fit ${message.user.uid === loggedInUserId
-          ? "right-chat items-end"
-          : "left-chat items-start"
+            ? "right-chat items-end"
+            : "left-chat items-start"
           }  ${message.user.uid == loggedInUserId && "ml-auto text-right"} `}
       >
         <div className="flex gap-1 items-center">
@@ -113,86 +113,19 @@ const MessageContainer = ({
           </div>
         )}
       </div>
-      <Dialog.Root open={isEditModalOpen} onOpenChange={setIsEditModalOpen}>
-        <Dialog.Portal>
-          <Dialog.Overlay className="bg-[#a8a8a899] backdrop-blur-md fixed animate-[overlayShow_150ms_cubic-bezier(0.16,1,0.3,1)] inset-0" />
-          <Dialog.Content className="bg-[white] shadow-[hsl(206_22%_7%_/_35%)_0px_10px_38px_-10px,hsl(206_22%_7%_/_20%)_0px_10px_20px_-15px] fixed -translate-x-2/4 -translate-y-2/4 w-[90vw] max-w-[450px] max-h-[85vh] animate-[contentShow_150ms_cubic-bezier(0.16,1,0.3,1)] p-[25px] rounded-md left-2/4 top-2/4">
-            <Dialog.Title>Edit Message</Dialog.Title>
-
-            <Dialog.Description className="text-[color:var(--mauve11)] text-[15px] leading-normal mt-2.5 mb-5 mx-0">
-              <form
-                onSubmit={(e) => {
-                  e.preventDefault();
-                }}
-                className="mt-4"
-              >
-                <input
-                  placeholder="Type here"
-                  className="input bg-gray-100 w-full"
-                  value={newMessage}
-                  onChange={(e) => setNewMessage(e.target.value)}
-                />
-                <button
-                  type="submit"
-                  className={`btn btn-primary btn-sm px-6 mt-4 float-right ${isEditing && "loading"
-                    }`}
-                  onClick={handleMessageEdit}
-                >
-                  Edit
-                </button>
-              </form>
-            </Dialog.Description>
-            <Dialog.Close asChild>
-              <button
-                className="h-[25px] w-[25px] inline-flex items-center justify-center text-[color:var(--violet11)] absolute rounded-[100%] right-2.5 top-2.5 hover:bg-[color:var(--violet4)] focus:shadow-[0_0_0_2px_var(--violet7)]"
-                aria-label="Close"
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth="1.5"
-                  stroke="currentColor"
-                  className="w-6 h-6"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M6 18L18 6M6 6l12 12"
-                  />
-                </svg>
-              </button>
-            </Dialog.Close>
-          </Dialog.Content>
-        </Dialog.Portal>
-      </Dialog.Root>
-      <AlertDialog.Root open={isDeleteModalOpen} onOpenChange={setIsDeleteModalOpen}>
-        <AlertDialog.Portal>
-          <AlertDialog.Overlay className="bg-[#a8a8a899] backdrop-blur-md fixed animate-[overlayShow_150ms_cubic-bezier(0.16,1,0.3,1)] inset-0" />
-          <AlertDialog.Content className="bg-[white] shadow-[hsl(206_22%_7%_/_35%)_0px_10px_38px_-10px,hsl(206_22%_7%_/_20%)_0px_10px_20px_-15px] fixed -translate-x-2/4 -translate-y-2/4 w-[90vw] max-w-[450px] max-h-[85vh] animate-[contentShow_150ms_cubic-bezier(0.16,1,0.3,1)] p-[25px] rounded-md left-2/4 top-2/4">
-            <AlertDialog.Title className="font-bold text-lg">
-              Are you sure you want to delete?
-            </AlertDialog.Title>
-            <AlertDialog.Description className="text-gray-600">
-              This action cannot be undone. This will permanently deleted from the
-              database.
-            </AlertDialog.Description>
-            <div className="flex justify-between mt-2">
-              <AlertDialog.Cancel asChild>
-                <button className="btn btn-outline btn-sm">Cancel</button>
-              </AlertDialog.Cancel>
-              <AlertDialog.Action asChild>
-                <button
-                  className={`btn btn-error text-white btn-sm ${isDeleting && "loading"}`}
-                  onClick={handleMessageDelete}
-                >
-                  Delete Message
-                </button>
-              </AlertDialog.Action>
-            </div>
-          </AlertDialog.Content>
-        </AlertDialog.Portal>
-      </AlertDialog.Root>
+      <MessageDeleteModal
+        isDeleteModalOpen={isDeleteModalOpen}
+        setIsDeleteModalOpen={setIsDeleteModalOpen}
+        handleMessageDelete={handleMessageDelete}
+        isDeleting={isDeleting}
+      />
+      <MessageEditModal
+        isEditModalOpen={isEditModalOpen}
+        setIsEditModalOpen={setIsEditModalOpen}
+        handleMessageEdit={handleMessageEdit}
+        isEditing={isEditing}
+        message={message}
+      />
     </>
   );
 };
