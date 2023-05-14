@@ -3,7 +3,7 @@ import autoAnimate from "@formkit/auto-animate";
 import {
   addDoc,
   collection,
-  limit,
+  limitToLast,
   onSnapshot,
   orderBy,
   query,
@@ -89,8 +89,9 @@ const Chat = () => {
   const chatViewRef = useRef<HTMLDivElement>(null);
   const [chats, setChats] = useState<Message[]>([]);
   const [user] = useAuthState(auth);
+  console.log(chats)
   useEffect(() => {
-    const q = query(collection(db, "messages"), orderBy("createdAt"), limit(50));
+    const q = query(collection(db, "messages"), orderBy("createdAt"), limitToLast(50));
     const unsubscribe = onSnapshot(q, (QuerySnapshot) => {
       const messages: Message[] = [];
       QuerySnapshot.forEach((doc) => {
