@@ -77,6 +77,7 @@ const Chat = () => {
   const [chats, setChats] = useState<Message[]>([]);
   const [user] = useAuthState(auth);
   const [limit, setLimit] = useState(50);
+  const [loadCount, setLoadCount] = useState(0);
 
   useEffect(() => {
     // for push notification
@@ -93,24 +94,28 @@ const Chat = () => {
         messages.push({ id: doc.id, ...doc.data() } as Message);
       });
       setChats(messages);
+      if (loadCount <= 1) {
+        setLoadCount((prev) => prev + 1);
+      }
     });
     return () => unsubscribe();
-  }, [limit]);
+  }, [limit, loadCount, setLoadCount]);
 
   // for notification
   useEffect(() => {
+    if (loadCount <= 1) return;
     if (chats.length === 0) return;
     const lastMessage = chats[chats.length - 1];
     if (lastMessage.user.uid === user?.uid) return;
     if (lastMessage.isEdited) return;
-    if (document.visibilityState === "visible") return;
+    if (document.hasFocus()) return;
     const notification = new Notification(lastMessage.user.displayName, {
       body: lastMessage.message,
     });
     notification.onclick = () => {
       window.focus();
     };
-  }, [user?.uid, chats]);
+  }, [user?.uid, chats, loadCount]);
 
   useEffect(() => {
     if (chatViewRef.current && chats) {
