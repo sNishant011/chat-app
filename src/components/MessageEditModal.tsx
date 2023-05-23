@@ -39,8 +39,9 @@ const MessageEditModal = ({
               />
               <button
                 type="submit"
-                className={`btn btn-primary btn-sm px-6 mt-4 float-right ${isEditing && "loading"
-                  }`}
+                className={`btn btn-primary btn-sm px-6 mt-4 float-right ${
+                  isEditing && "loading"
+                }`}
                 onClick={() => handleMessageEdit(newMessage)}
               >
                 Edit

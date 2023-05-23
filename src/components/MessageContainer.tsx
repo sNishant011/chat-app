@@ -2,7 +2,7 @@ import { deleteDoc, doc, serverTimestamp, updateDoc } from "firebase/firestore";
 import { useState } from "react";
 
 import { db } from "../configs/firebase";
-import MessageDeleteModal from "./MessageDeleteModal";
+import ConfirmationModal from "./ConfirmationModal";
 import MessageEditModal from "./MessageEditModal";
 
 const MessageContainer = ({
@@ -30,13 +30,10 @@ const MessageContainer = ({
     });
   };
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
-  const [isDeleting, setIsDeleting] = useState(false);
 
   const handleMessageDelete = () => {
-    setIsDeleting(true);
     const docRef = doc(db, "messages", message.id);
     deleteDoc(docRef).then(() => {
-      setIsDeleting(false);
       setIsDeleteModalOpen(false);
     });
   };
@@ -44,10 +41,11 @@ const MessageContainer = ({
   return (
     <>
       <div
-        className={`flex max-w-[85%] flex-col  my-4   gap-1  w-fit ${message.user.uid === loggedInUserId
+        className={`flex max-w-[85%] flex-col  my-4   gap-1  w-fit ${
+          message.user.uid === loggedInUserId
             ? "right-chat items-end"
             : "left-chat items-start"
-          }  ${message.user.uid == loggedInUserId && "ml-auto text-right"} `}
+        }  ${message.user.uid == loggedInUserId && "ml-auto text-right"} `}
       >
         <div className="flex gap-1 items-center">
           {isActive && loggedInUserId === message.user.uid && (
@@ -95,8 +93,9 @@ const MessageContainer = ({
           )}
           <div
             onClick={() => setIsActive(!isActive)}
-            className={`flex flex-col gap-0.5 message cursor-pointer w-fit rounded-3xl ${message.user.uid === loggedInUserId ? "bg-blue-600" : "bg-gray-500"
-              } text-white px-4 py-2`}
+            className={`flex flex-col gap-0.5 message cursor-pointer w-fit rounded-3xl ${
+              message.user.uid === loggedInUserId ? "bg-blue-600" : "bg-gray-500"
+            } text-white px-4 py-2`}
           >
             {message.message}
           </div>
@@ -113,11 +112,13 @@ const MessageContainer = ({
           </div>
         )}
       </div>
-      <MessageDeleteModal
-        isDeleteModalOpen={isDeleteModalOpen}
-        setIsDeleteModalOpen={setIsDeleteModalOpen}
-        handleMessageDelete={handleMessageDelete}
-        isDeleting={isDeleting}
+      <ConfirmationModal
+        isModalOpen={isDeleteModalOpen}
+        setIsModalOpen={setIsDeleteModalOpen}
+        onConfirm={handleMessageDelete}
+        confirmText="Delete"
+        title="Delete Message"
+        description="This action will permanently delete message from the server. Are you sure you want to delete this message?"
       />
       <MessageEditModal
         isEditModalOpen={isEditModalOpen}
